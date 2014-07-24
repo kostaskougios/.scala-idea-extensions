@@ -41,8 +41,8 @@ class ProjectCompiled extends ProjectCompilationListener
 		EventLog.trace(this, s"executing mvn for path ${path}")
 		val start = System.currentTimeMillis
 		try {
-			val result = cli.doMain(Array("clean", "install"), path, outStream, errStream)
-			if (result == 1) EventLog.error(this, "mvn reported an illegal argument", null)
+			val result = cli.doMain(Array("clean", "install", "-DskipTests"), path, outStream, errStream)
+			if (result != 0) EventLog.error(this, s"mvn returned with status code ${result}", null)
 		} finally {
 			outStream.close()
 			errStream.close()
