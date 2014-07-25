@@ -4,8 +4,8 @@ import java.io.{ByteArrayOutputStream, PrintStream}
 
 import com.intellij.openapi.compiler.CompileContext
 import org.apache.maven.cli.MavenCli
-import org.kostaskougios.idea.eventlog.EventLog
 import org.scalaideaextension.compilation.ProjectCompilationListener
+import org.scalaideaextension.eventlog.EventLog
 
 /**
  * @author	kostas.kougios
