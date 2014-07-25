@@ -59,6 +59,6 @@ class ProjectCompiled extends ProjectCompilationListener
 			  |${new String(stdErr.toByteArray, "UTF-8")}
 			""".stripMargin
 
-		EventLog.info(this, msg)
+		EventLog.trace(this, msg)
 	}
 }
