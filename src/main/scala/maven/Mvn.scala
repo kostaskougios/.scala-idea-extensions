@@ -11,7 +11,7 @@ import org.scalaideaextension.eventlog.EventLog
  */
 object Mvn
 {
-	def apply(path: String, args: Array[String]) {
+	def apply(path: String, args: Array[String]): MvnResult = {
 		val classLoader = Thread.currentThread.getContextClassLoader
 		try {
 			Thread.currentThread.setContextClassLoader(getClass.getClassLoader)
@@ -21,7 +21,7 @@ object Mvn
 		}
 	}
 
-	private def mvnRunInner(path: String, args: Array[String]) {
+	private def mvnRunInner(path: String, args: Array[String]) = {
 		val cli = new MavenCli
 
 		val stdOut = new ByteArrayOutputStream
@@ -30,9 +30,8 @@ object Mvn
 		val errStream = new PrintStream(stdErr, true)
 		EventLog.trace(this, s"executing mvn for path ${path}")
 		val start = System.currentTimeMillis
-		try {
-			val result = cli.doMain(Array("clean", "install", "-DskipTests"), path, outStream, errStream)
-			if (result != 0) EventLog.error(this, s"mvn returned with status code ${result}", null)
+		val result = try {
+			cli.doMain(Array("clean", "install", "-DskipTests"), path, outStream, errStream)
 		} finally {
 			outStream.close()
 			errStream.close()
@@ -49,6 +48,9 @@ object Mvn
 			  |${new String(stdErr.toByteArray, "UTF-8")}
 			""".stripMargin
 
-		EventLog.trace(this, msg)
+		MvnResult(result, msg)
 	}
+
+	case class MvnResult(returnCode: Int, log: String)
+
 }
