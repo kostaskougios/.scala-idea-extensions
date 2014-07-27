@@ -1,5 +1,6 @@
 package vfs
 
+import com.intellij.openapi.module.Module
 import com.intellij.openapi.vfs.VirtualFileEvent
 import org.scalaideaextension.vfs.VFSChangeListener
 
@@ -9,7 +10,7 @@ import org.scalaideaextension.vfs.VFSChangeListener
  */
 class JavaFileChangeLogger extends VFSChangeListener
 {
-	override def contentsChanged(event: VirtualFileEvent) {
+	override def contentsChanged(module: Module, event: VirtualFileEvent) {
 		//		EventLog.info(this, s"Notified about ${event}")
 	}
 }
