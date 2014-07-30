@@ -32,12 +32,11 @@ class ProjectCompiled extends ProjectCompilationListener with VFSChangeListener
 		}
 	}
 
-	override def contentsChanged(modules: List[Module], event: VirtualFileEvent) = {
+	override def contentsChanged(module: Module, event: VirtualFileEvent) = {
 		val file = event.getFile
 		if (isSource(file)) {
-			EventLog.trace(this, s"modules ${modules.map(_.getName).mkString(",")}, source file modification detected : ${file}")
-			for (module <- modules)
-				changeTracker.track(module, file)
+			EventLog.trace(this, s"module ${module}, source file modification detected : ${file}")
+			changeTracker.track(module, file)
 		}
 	}
 
