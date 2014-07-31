@@ -31,7 +31,7 @@ object Mvn
 		EventLog.trace(this, s"executing mvn for path ${path}")
 		val start = System.currentTimeMillis
 		val result = try {
-			cli.doMain(Array("clean", "install", "-DskipTests"), path, outStream, errStream)
+			cli.doMain(args, path, outStream, errStream)
 		} finally {
 			outStream.close()
 			errStream.close()
