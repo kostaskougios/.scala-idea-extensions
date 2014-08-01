@@ -4,6 +4,7 @@ import com.intellij.openapi.compiler.CompileContext
 import com.intellij.openapi.module.Module
 import com.intellij.openapi.vfs.{VirtualFile, VirtualFileEvent}
 import org.scalaideaextension.compilation.ProjectCompilationListener
+import org.scalaideaextension.environment.Env
 import org.scalaideaextension.eventlog.EventLog
 import org.scalaideaextension.vfs.{ChangeTracker, VFSChangeListener}
 
@@ -22,6 +23,7 @@ class ProjectCompiled extends ProjectCompilationListener with VFSChangeListener
 	import compilation.ProjectCompiled._
 
 	override def success(context: CompileContext) = {
+		EventLog.info(this, "env : " + Env.get)
 		val affectedModules = context.getCompileScope.getAffectedModules
 		for (module <- affectedModules if (context.isRebuild || changeTracker.isTrackedSinceLastCall(module))) {
 			val path = module.getModuleFile.getParent.getPath
