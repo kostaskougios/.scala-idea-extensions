@@ -24,7 +24,7 @@ class ProjectCompiled extends ProjectCompilationListener with VFSChangeListener
 
 	override def success(context: CompileContext) = {
 		val affectedModules = context.getCompileScope.getAffectedModules
-		for (module <- affectedModules if (context.isRebuild || changeTracker.isChangedSinceLastCall(module))) {
+		for (module <- affectedModules if (context.isRebuild || changeTracker.isTrackedSinceLastCall(module))) {
 			val path = module.getModuleFile.getParent.getPath
 			val result = Mvn(path, Array("clean", "package", "-DskipTests"))
 			if (result.returnCode != 0) EventLog.error(this, s"mvn returned with status code ${result}", null)
