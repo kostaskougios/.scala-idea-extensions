@@ -3,7 +3,6 @@ package compilation
 import com.intellij.openapi.compiler.CompileContext
 import com.intellij.openapi.module.Module
 import com.intellij.openapi.vfs.{VirtualFile, VirtualFileEvent}
-import maven.Mvn
 import org.scalaideaextension.compilation.ProjectCompilationListener
 import org.scalaideaextension.eventlog.EventLog
 import org.scalaideaextension.vfs.{ChangeTracker, VFSChangeListener}
@@ -26,9 +25,7 @@ class ProjectCompiled extends ProjectCompilationListener with VFSChangeListener
 		val affectedModules = context.getCompileScope.getAffectedModules
 		for (module <- affectedModules if (context.isRebuild || changeTracker.isTrackedSinceLastCall(module))) {
 			val path = module.getModuleFile.getParent.getPath
-			val result = Mvn(path, Array("clean", "package", "-DskipTests"))
-			if (result.returnCode != 0) EventLog.error(this, s"mvn returned with status code ${result}", null)
-			EventLog.trace(this, result.log)
+			EventLog.info(this, s"do something for modified module at ${path}")
 		}
 	}
 
